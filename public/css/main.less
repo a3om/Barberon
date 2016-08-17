@@ -1,0 +1,2665 @@
+/*
+	- Функции
+*/
+
+.placeholder (@color) {
+
+    &::-webkit-input-placeholder {
+
+        color: @color;
+    }
+    &:-moz-placeholder {
+
+        color: @color;
+    }
+}
+
+.border-radius (@radius) {
+
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.border-top-left-radius (@radius) {
+
+	-webkit-border-top-left-radius: @radius;
+	-moz-border-top-left-radius: @radius;
+	border-top-left-radius: @radius;
+}
+
+.border-top-right-radius (@radius) {
+
+	-webkit-border-top-right-radius: @radius;
+	-moz-border-top-right-radius: @radius;
+	border-top-right-radius: @radius;
+}
+
+.border-bottom-left-radius (@radius) {
+
+	-webkit-border-bottom-left-radius: @radius;
+	-moz-border-bottom-left-radius: @radius;
+	border-bottom-left-radius: @radius;
+}
+
+.border-bottom-right-radius (@radius) {
+
+	-webkit-border-bottom-right-radius: @radius;
+	-moz-border-bottom-right-radius: @radius;
+	border-bottom-right-radius: @radius;
+}
+
+.border-top-radius (@radius) {
+
+	.border-top-left-radius(@radius);
+	.border-top-right-radius(@radius);
+}
+
+.border-bottom-radius (@radius) {
+
+	.border-bottom-left-radius(@radius);
+	.border-bottom-right-radius(@radius);
+}
+
+.border-left-radius (@radius) {
+
+	.border-top-left-radius(@radius);
+	.border-bottom-left-radius(@radius);
+}
+
+.border-right-radius (@radius) {
+
+	.border-top-right-radius(@radius);
+	.border-bottom-right-radius(@radius);
+}
+
+.transition (...) {
+
+	-webkit-transition: @arguments;
+	-moz-transition: @arguments;
+	-o-transition: @arguments;
+	transition: @arguments;
+}
+
+/*
+	- Стили
+*/
+
+@headerBackgroundColor: #3b2b24;
+// @topbarBackgroundColor: lighten(#7a6e6c, 0%);
+// @topbarBackgroundColor: #d1e231;
+@topbarBackgroundColor: #acb12f;
+// @middleWrapperBackgroundColor: lighten(#c3beba, 15%);
+@middleWrapperBackgroundColor: #f5f5dc;
+@middleBackgroundColor: darken(@middleWrapperBackgroundColor, 10%);
+@headerTextColor: #ffffff;
+@contentBackgroundColor: #ffffff;
+@subheaderBackgroundColor: #ffffff;
+@headerHeight: 50px;
+@wrapperWidth: 1000px;
+
+html, body, form, input, textarea, ul, li {
+
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+html {
+
+	height: 100%;
+}
+
+input, textarea {
+
+	outline: none;
+	background: #ff00ff;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+textarea {
+
+	resize: vertical;
+}
+
+li {
+
+	list-style-type: none;
+}
+
+body {
+
+	min-height: 100%;
+	min-width: @wrapperWidth;
+	position: relative;
+	background: @middleBackgroundColor;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body.nonScrollable {
+
+	overflow: hidden;
+}
+
+a {
+
+	text-decoration: none;
+	cursor: pointer;
+}
+
+label {
+
+	cursor: pointer;
+}
+
+#header {
+
+	width: 100%;
+	height: @headerHeight;
+	background: @headerBackgroundColor; // url('/img/headerBackground.png') repeat-x 0 0;
+
+	.wrapper {
+
+		width: @wrapperWidth;
+		margin: 0 auto;
+
+		@logoWidth: 440px;
+		@logoHeight: 30px;
+		@rightsideWidth: 280px;
+		@leftsideWidth: 280px;
+		@leftsidePadding: 15px;
+		@leftsideRightMargin: 0px;
+
+		.leftside {
+
+			position: absolute;
+			width: @leftsideWidth - @leftsidePadding * 2 - @leftsideRightMargin;
+			height: @headerHeight;
+			line-height: @headerHeight;
+			padding: 0 @leftsidePadding;
+			margin-right: @leftsideRightMargin;
+			font-size: 11pt;
+			// background: #000;
+			color: @headerTextColor;
+			text-align: left;
+			cursor: pointer;
+		}
+
+		.leftside:hover {
+
+			background: lighten(@headerBackgroundColor, 5%);
+		}
+
+		.logo {
+
+			position: absolute;
+			padding: (@headerHeight - @logoHeight) / 2 0;
+			width: @logoWidth;
+			height: @logoHeight;
+			// background: #000;
+			margin-left: @leftsideWidth;
+			text-align: center;
+
+			img {
+
+				height: @logoHeight;
+			}
+		}
+
+		.logo:hover {
+
+			background: lighten(@headerBackgroundColor, 5%);
+		}
+
+		.rightside {
+
+			position: absolute;
+			z-index: 4;
+			width: @rightsideWidth;
+			height: @headerHeight;
+			margin-left: @leftsideWidth + @logoWidth;
+			// background: #000;
+			text-align: right;
+
+			.item {
+
+				display: inline-block;
+				height: @headerHeight;
+				line-height: @headerHeight;
+				font-size: 11pt;
+				padding: 0 12px;
+				color: @headerTextColor;
+			}
+
+			.item:hover {
+
+				background: lighten(@headerBackgroundColor, 5%);
+			}
+
+			.profile {
+
+				position: absolute;
+				height: @headerHeight;
+				padding: 0 0;
+				width: @rightsideWidth;
+				cursor: pointer;
+				left: 0;
+
+				@avatarSize: 40px;
+				@avatarMargin: (@headerHeight - @avatarSize) / 2;
+
+				.name {
+
+					position: absolute;
+					right: @avatarSize + @avatarMargin * 2;
+					font-size: 11pt;
+					color: @headerTextColor;
+					height: @headerHeight;
+					line-height: @headerHeight;
+				}
+				
+				.avatar {
+
+					position: absolute;
+					right: 0;
+
+					img {
+
+						margin: @avatarMargin;
+						width: @avatarSize;
+						height: @avatarSize;
+						.border-radius(@avatarSize / 2);
+					}
+				}
+			}
+
+			.profile:hover, .profile.clicked {
+
+				background: lighten(@headerBackgroundColor, 5%);
+			}
+		}
+
+		.menu {
+
+			visibility: hidden;
+			opacity: 0.0;
+			.transition (opacity 0.1s linear);
+			position: absolute;
+			top: @headerHeight;
+			z-index: 3;
+			width: @rightsideWidth;
+			margin-left: @leftsideWidth + @logoWidth;
+			background: lighten(@headerBackgroundColor, 15%);
+			font-size: 0;
+
+			a {
+
+				display: inline-block;
+				width: @rightsideWidth - 1px * 2 - 10px * 2;
+				padding: 0 10px;
+				border: 1px solid lighten(@headerBackgroundColor, 10%);
+				margin-top: -1px;
+				cursor: pointer;
+				height: 40px;
+				line-height: 40px;
+				font-size: 11pt;
+				color: @headerTextColor;;
+
+				span {
+
+					float: right;
+					background: lighten(@headerBackgroundColor, 25%);
+					margin: 6px 0;
+					padding: 0 9px;
+					height: 28px;
+					line-height: 28px;
+					.border-radius(3px);
+				}
+			}
+
+			a:hover {
+
+				background: lighten(@headerBackgroundColor, 20%);
+
+				span {
+
+					background: lighten(@headerBackgroundColor, 30%);
+				}
+			}
+		}
+
+		.menu.active {
+
+			visibility: visible;
+			opacity: 1.0;
+		}
+	}
+}
+
+@footerHeight: 100px;
+
+#middle {
+
+	background: @middleBackgroundColor;
+	padding: 0 0 @footerHeight;
+
+	.wrapper {
+
+		@sidebarWidth: 220px;
+		@contentWidth: @wrapperWidth;
+		@contentWidthWithSidebar: @contentWidth - @sidebarWidth;
+		@topbarWidth: @contentWidthWithSidebar;
+		@topbarHeight: 50px;
+		@topbarZIndex: 2;
+		@topbarBackground: @topbarBackgroundColor; // darken(@middleBackgroundColor, 15%);
+
+		width: @wrapperWidth;
+		margin: 0 auto;
+		background: @middleWrapperBackgroundColor;
+		// background: #000;
+
+		#topbar {
+
+			width: @topbarWidth;
+			height: @topbarHeight;
+			margin-left: @sidebarWidth;
+			position: absolute;
+			top: @headerHeight;
+			background: @topbarBackground;
+			z-index: @topbarZIndex;
+
+			.search {
+
+				width: @topbarWidth;
+				height: @topbarHeight;
+
+				@imgWidth: 32px;
+				@imgHeight: 22px;
+
+				@inputMargin: 6px;
+				@inputLeftMargin: 6px;
+				@inputPadding: 10px;
+				@inputRightPadding: @imgWidth + @inputPadding * 2;
+				@inputBorder: 1px;
+				@inputWidth: @topbarWidth - @inputRightPadding - @inputMargin - @inputLeftMargin - @inputPadding - @inputBorder * 2;
+				@inputHeight: @topbarHeight - @inputMargin * 2 - @inputPadding * 2 - @inputBorder * 2;
+
+				input {
+
+					width: @inputWidth;
+					height: @inputHeight;
+					margin: @inputMargin @inputMargin @inputMargin @inputLeftMargin;
+					padding: @inputPadding @inputRightPadding @inputPadding @inputPadding;
+					border: @inputBorder solid darken(@topbarBackground, 5%);
+					background: #fff;
+					font-size: 12pt;
+					.placeholder(darken(@topbarBackground, 10%));
+					color: darken(@topbarBackground, 20%);
+					.border-radius(5px);
+				}
+
+				input:focus {
+
+					border: @inputBorder solid darken(@topbarBackground, 10%);
+				}
+
+				img {
+
+					display: none;
+					width: @imgWidth;
+					height: @imgHeight;
+					position: absolute;
+					top: @inputMargin + @inputBorder + (@inputHeight + @inputPadding * 2 - @imgHeight) / 2;
+					right: @inputMargin + @inputBorder + @inputPadding;
+				}
+			}
+		}
+
+		#sidebar {
+
+			width: @sidebarWidth;
+			// background: #000;
+			position: absolute;
+			top: @headerHeight;
+			bottom: 0;
+
+			@dropdownWidth: @sidebarWidth;
+			@dropdownHeight: @topbarHeight;
+			@dropdownBackground: darken(@topbarBackground, 5%);
+			
+			.dropdown {
+
+				width: @dropdownWidth;
+				height: @dropdownHeight;
+				background: @dropdownBackground;
+
+				.title {
+
+					@titleMargin: 0px;
+					@titleRightMargin: 0px;
+					@titlePadding: 15px;
+					@titleBorder: 0px;
+					@titleWidth: @dropdownWidth - @titleMargin - @titleRightMargin - @titlePadding * 2 - @titleBorder * 2;
+					@titleHeight: @dropdownHeight - @titleMargin * 2 - @titlePadding * 2 - @titleBorder * 2;
+
+					width: @titleWidth;
+					height: @titleHeight;
+					line-height: @titleHeight;
+					margin: @titleMargin @titleRightMargin @titleMargin @titleMargin;
+					padding: @titlePadding;
+					border: @titleBorder solid darken(@dropdownBackground, 10%);
+					// background: darken(@dropdownBackground, 10%);
+					font-size: 11pt;
+					color: #fff;
+					cursor: pointer;
+
+					span:last-child {
+
+						float: right;
+					}
+				}
+
+				ul {
+
+					@ulMargin: 0px;
+					@ulRightMargin: 0px;
+					@ulBorder: 1px;
+
+					visibility: hidden;
+					opacity: 0.0;
+					.transition (opacity 0.1s linear);
+					position: relative;
+					z-index: 10;
+					width: @dropdownWidth - @ulMargin - @ulRightMargin - @ulBorder * 2;
+					background: #fff;
+					margin: 0 @ulRightMargin 0 @ulMargin;
+					top: -1px;
+					border: @ulBorder solid darken(@dropdownBackground, 5%);
+					font-size: 10pt;
+
+					li {
+
+						padding: 8px 14px;
+						cursor: pointer;
+						color: darken(@dropdownBackground, 20%);
+					}
+
+					li:hover {
+
+						background: lighten(@dropdownBackground, 5%);
+						color: #fff;
+					}
+				}
+
+				ul.active {
+
+					visibility: visible;
+					opacity: 1.0;
+				}
+			}
+
+			.dropdown.clicked {
+
+				background: darken(@dropdownBackground, 5%);
+			}
+
+			@blockWidth: @sidebarWidth;
+
+			.options {
+
+				width: @blockWidth;
+
+				.title {
+
+					background: lighten(@topbarBackground, 10%);
+					padding: 10px 15px;
+					font-size: 11pt;
+					text-align: center;
+					color: darken(@middleBackgroundColor, 60%);
+				}
+
+				.separator {
+
+					height: 1px;
+					background: @topbarBackground;
+				}
+
+				@contentWidth: @blockWidth;
+
+				.content {
+
+					width: @contentWidth;
+					margin: 10px 0;
+
+					.filter {
+
+						width: @contentWidth;
+						height: 60px;
+						margin: 0 5px;
+						// background: #000;
+
+						@inputBorder: 1px;
+						@inputPadding: 10px;
+
+						input {
+
+							position: static;
+							width: (@contentWidth / 2) - 5px * 3 - @inputBorder * 2 - @inputPadding * 2;
+							height: 16px;
+							background: @middleBackgroundColor;
+							border: 1px solid darken(@middleBackgroundColor, 10%);
+							padding: @inputPadding;
+							margin: 0 5px;
+							color: darken(@middleBackgroundColor, 50%);
+							.border-radius(5px);
+							.placeholder(darken(@middleBackgroundColor, 50%));
+						}
+
+						.from {
+
+							left: 10px;
+							top: 0;
+						}
+
+						.to {
+
+							right: 10px;
+							top: 0;
+						}
+
+						#slider-range {
+
+							width: @contentWidth - 20px * 2 - 3px;
+							margin: 15px 15px 0;
+							background: lighten(@middleBackgroundColor, 10%);
+							border: 1px solid darken(@middleBackgroundColor, 10%);
+
+							.ui-state-focus {
+
+								outline: none;
+							}
+
+							.ui-slider-range {
+
+								background: @middleBackgroundColor;
+							}
+
+							.ui-slider-handle {
+
+								background: @middleBackgroundColor;
+								border: 1px solid darken(@middleBackgroundColor, 10%);
+								cursor: pointer;
+							}
+
+							.ui-state-hover, .ui-state-focus {
+
+								background: lighten(@middleBackgroundColor, 10%);
+							}
+						}
+					}
+
+					@sorterMaring: 10px;
+					@sorterWidth: @contentWidth - @sorterMaring * 2;
+					@sorterHeight: 38px;
+
+					.sorter {
+
+						margin: 0 @sorterMaring;
+						width: @sorterWidth;
+						height: @sorterHeight;
+						font-size: 0;
+
+						@orderRealWidth: 30px;
+						@orderPadding: 10px;
+						@orderBorder: 1px;
+						@orderRightMargin: -1px;
+						@orderWidth: @orderRealWidth - @orderPadding * 2 - @orderBorder * 2 - @orderRightMargin;
+						@titlePadding: 15px;
+						@titleBorder: 1px;
+						@titleWidth: @sorterWidth - @titlePadding * 2 - @titleBorder * 2 - @orderRealWidth;
+
+						.title {
+
+							display: inline-block;
+							width: @titleWidth;
+							margin: 0;
+							padding: 10px @titlePadding;
+							background: @middleBackgroundColor;
+							border: @titleBorder solid darken(@middleBackgroundColor, 10%);
+							font-size: 11pt;
+							color: darken(@middleBackgroundColor, 60%);
+							text-align: left;
+							cursor: pointer;
+							.border-left-radius(5px);
+
+							span:last-child {
+
+								float: right;
+							}
+						}
+
+						.order {
+
+							display: inline-block;
+							width: @orderWidth;
+							padding: @orderPadding;
+							background: @middleBackgroundColor;
+							border: @orderBorder solid darken(@middleBackgroundColor, 10%);
+							margin-left: @orderRightMargin;
+							font-size: 11pt;
+							cursor: pointer;
+							.border-right-radius(5px);
+						}
+
+						@ulBorder: 1px;
+						@ulWidth: @sorterWidth - @ulBorder * 2; 
+
+						ul {
+
+							visibility: hidden;
+							opacity: 0.0;
+							.transition (opacity 0.1s linear);
+							position: absolute;
+							width: @ulWidth;
+							background: @middleBackgroundColor;
+							border: @orderBorder solid darken(@middleBackgroundColor, 10%);
+							padding: 0 0 0;
+							margin: -1px 0 0;
+							font-size: 10pt;
+							color: darken(@middleBackgroundColor, 60%);
+							.border-bottom-radius(5px);
+						}
+
+						ul.active {
+
+							visibility: visible;
+							opacity: 1.0;
+						}
+
+						li {
+
+							padding: 8px 14px;
+							cursor: pointer;
+						}
+
+						li:last-child {
+
+							.border-bottom-radius(5px);
+						}
+
+						li:hover {
+
+							background: darken(@middleBackgroundColor, 15%);
+						}
+					}
+
+					.sorter.clicked {
+
+						@titleBorder: 1px;
+						@orderBorder: 1px;
+
+						.title {
+
+							border: @titleBorder solid darken(@middleBackgroundColor, 30%);
+							.border-bottom-radius(0);
+						}
+
+						.order {
+
+							border: @orderBorder solid darken(@middleBackgroundColor, 30%);
+							.border-bottom-radius(0);
+						}
+
+						ul {
+
+							border: @orderBorder solid darken(@middleBackgroundColor, 30%);
+						}
+					}
+				}
+			}
+
+			#scroll {
+
+				display: none;
+				position: fixed;
+				// top: 0;
+				bottom: 0;
+				// bottom: 0;
+				z-index: 0;
+				width: @sidebarWidth;
+				height: @sidebarWidth + @footerHeight + 1px;
+				background: darken(@middleWrapperBackgroundColor, 3%);
+				cursor: pointer;
+
+				@arrowSize: 120px;
+				@arrowMargin: (@sidebarWidth - @arrowSize) / 2;
+
+				.border {
+
+					background: darken(@middleWrapperBackgroundColor, 4%);
+					width: @sidebarWidth;
+					height: 1px;
+				}
+
+				.arrow {
+
+					background: url('/img/scrollDownArrow.png') no-repeat 0 0;
+					width: @arrowSize;
+					height: @arrowSize;
+					margin: @arrowMargin;
+					// transform: rotate(180deg);
+				}
+			}
+
+			#scroll:hover {
+
+				background: darken(@middleWrapperBackgroundColor, 5%);
+			}
+		}
+
+		@contentColor: #000000;
+
+		#content {
+
+			@sectionsWidth: 480px;
+			@servicesWidth: @contentWidth - @sectionsWidth;
+
+			font-size: 0;
+
+			#loading.first {
+
+				height: 100px;
+				line-height: 100px;
+				font-size: 15pt;
+				text-align: center;
+				color: lighten(@contentColor, 30%);
+				font-size: 16px;
+			}
+
+			#loading.noFirst {
+
+				background: lighten(@middleWrapperBackgroundColor, 3%);
+				font-size: 16px;
+
+				.content {
+
+					height: 100px;
+					line-height: 100px;
+					font-size: 15pt;
+					text-align: center;
+					color: lighten(@contentColor, 30%);
+				}
+			}
+
+			#load {
+				
+				font-size: 16px;
+
+				.content {
+		
+					height: 100px;
+					line-height: 100px;
+					font-size: 15pt;
+					text-align: center;
+					cursor: pointer;
+					background: lighten(@middleWrapperBackgroundColor, 5%);
+					color: lighten(@contentColor, 30%);
+				}
+			}
+
+			#load:hover {
+				
+				.content {
+
+					background: lighten(@middleWrapperBackgroundColor, 3%);
+					color: lighten(@contentColor, 25%);
+				}
+			}
+
+			.sections {
+
+				display: inline-block;
+				width: @sectionsWidth - 10px - 15px;
+				vertical-align: top;
+				margin: 15px 10px 25px 15px;
+				.border-radius(10px);
+				background: lighten(@middleWrapperBackgroundColor, 5%);
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				font-size: 16px;
+
+				li {
+
+					padding: 10px 15px;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					margin-top: -1px;
+					cursor: pointer;
+				}
+
+				li:first-child {
+
+					.border-top-radius(10px);
+				}
+
+				li:last-child {
+
+					.border-bottom-radius(10px);
+				}
+
+				li.active {
+
+					font-weight: bold;
+					background: darken(@middleWrapperBackgroundColor, 10%);
+					cursor: default;
+				}
+			}
+
+			.services {
+
+				display: inline-block;
+				width: @servicesWidth - 10px - 15px;
+				vertical-align: top;
+				margin: 15px 15px 25px 10px;
+				.border-radius(10px);
+				background: lighten(@middleWrapperBackgroundColor, 5%);
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				font-size: 16px;
+
+				li {
+
+					// display: inline-block;
+					padding: 10px 15px;
+					// width: @servicesWidth;
+					// background: #000;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					margin-top: -1px;
+
+					span {
+
+						float: right;
+					}
+				}
+
+				li:first-child {
+
+					.border-top-radius(10px);
+					margin-top: 0;
+				}
+
+				li:last-child {
+
+					.border-bottom-radius(10px);
+				}
+			}
+
+			.noSections {
+
+				text-align: center;
+				padding: 20px;
+				font-size: 16px;
+			}
+
+			@workdaysWidth: 305px;
+			@internetWidth: 305px;
+			@contactsWidth: 310px;
+
+			.workdays {
+
+				display: inline-block;
+				vertical-align: top;
+				width: @workdaysWidth;
+				background: lighten(@middleWrapperBackgroundColor, 5%);
+				margin: 15px 10px 15px 15px;
+				font-size: 16px;
+
+				.title {
+
+					background: darken(@middleWrapperBackgroundColor, 5%);
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					font-size: 12pt;
+					padding: 10px;
+					.border-top-radius(5px);
+				}
+
+				ul {
+
+					font-size: 11pt;
+					.border-bottom-radius(5px);
+				}
+
+				li {
+
+					height: 38px;
+					line-height: 38px;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					margin-top: -1px;
+					padding: 0 10px;
+
+					img {
+
+						height: 16px;
+						vertical-align: middle;
+						.border-radius(9px);
+					}
+
+					span {
+
+						float: right;
+					}
+				}
+
+				li:last-child {
+
+					.border-bottom-radius(5px);
+				}
+			}
+
+			.internet {
+
+				display: inline-block;
+				vertical-align: top;
+				width: @internetWidth;
+				background: lighten(@middleWrapperBackgroundColor, 5%);
+				margin: 15px 10px 15px 10px;
+				font-size: 16px;
+
+				.title {
+
+					background: darken(@middleWrapperBackgroundColor, 5%);
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					font-size: 12pt;
+					padding: 10px;
+					.border-top-radius(5px);
+				}
+
+				ul {
+
+					font-size: 11pt;
+					.border-bottom-radius(5px);
+				}
+
+				li {
+
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					margin-top: -1px;
+					height: 38px;
+					line-height: 38px;
+
+					.image {
+
+						display: inline-block;
+						border-right: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+						background: @middleWrapperBackgroundColor;
+						padding: 0 10px;
+						height: 38px;
+						line-height: 38px;
+
+						img {
+
+							height: 20px;
+							vertical-align: middle;
+							.border-radius(10px);
+						}
+					}
+
+					span {
+
+						height: 38px;
+						line-height: 38px;
+						padding: 0 10px;
+					}
+
+					.right {
+
+						display: inline;
+						float: right;
+						padding: 0 10px;
+						color: darken(@middleWrapperBackgroundColor, 70%);
+					}
+				}
+
+				li:last-child {
+
+					.border-bottom-radius(5px);
+
+					.image {
+
+						.border-bottom-left-radius(5px);
+					}
+				}
+			}
+
+			.contacts {
+
+				display: inline-block;
+				vertical-align: top;
+				width: @contactsWidth;
+				background: lighten(@middleWrapperBackgroundColor, 5%);
+				margin: 15px 15px 15px 10px;
+				font-size: 16px;
+
+				.title {
+
+					background: darken(@middleWrapperBackgroundColor, 5%);
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					font-size: 12pt;
+					padding: 10px;
+					.border-top-radius(5px);
+				}
+
+				ul {
+
+					font-size: 11pt;
+					.border-bottom-radius(5px);
+				}
+
+				li {
+
+					border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+					margin-top: -1px;
+					height: 38px;
+					line-height: 38px;
+
+					.image {
+
+						display: inline-block;
+						border-right: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+						background: @middleWrapperBackgroundColor;
+						padding: 0 10px;
+						height: 38px;
+						line-height: 38px;
+
+						img {
+
+							height: 20px;
+							vertical-align: middle;
+							.border-radius(10px);
+						}
+					}
+
+					span {
+
+						height: 38px;
+						line-height: 38px;
+						padding: 0 10px;
+					}
+
+					.right {
+
+						display: inline;
+						float: right;
+						padding: 0 10px;
+						color: darken(@middleWrapperBackgroundColor, 70%);
+					}
+				}
+
+				li:last-child {
+
+					.border-bottom-radius(5px);
+
+					.image {
+
+						.border-bottom-left-radius(5px);
+					}
+				}
+			}
+
+			.addComment {
+				
+				padding: 10px;
+				// background: #000;
+				font-size: 0;
+
+				@textareaWidth: @contentWidth - 10px * 2 - 1px * 2 - 10px * 2;
+
+				textarea {
+
+					width: @textareaWidth;
+					height: 150px;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 10px;
+					background: #fff;
+					.border-radius(5px);
+					font-size: 16px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+					.placeholder(darken(@middleWrapperBackgroundColor, 50%));
+				}
+
+				input {
+
+					background: #fff;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 7px 10px;
+					.border-radius(5px);
+					cursor: pointer;
+					font-size: 16px;
+					margin-top: 10px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+				}
+
+				input:disabled {
+
+					border: 1px solid darken(@middleWrapperBackgroundColor, 30%);
+					color: darken(@middleWrapperBackgroundColor, 40%);
+					cursor: default;
+				}
+
+				span {
+					
+					display: none;
+					font-size: 16px;
+					margin-left: 10px;
+					color: darken(@middleWrapperBackgroundColor, 60%);
+				}
+
+				span.error {
+
+					color: #dc6161;
+				}
+
+				span.success {
+
+					color: #1faa36;
+				}
+			}
+
+			.comment {
+
+				@commentWidth: @contentWidth - 20px * 2;
+				padding: 20px;
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				font-size: 0;
+
+				.avatar {
+
+					display: inline-block;
+					vertical-align: top;
+					width: 120px;
+					height: 120px;
+
+					img {
+
+						width: 120px;
+						height: 120px;
+						.border-radius(60px);
+					}
+				}
+
+				@commentContentWidth: @commentWidth - 120px - 20px * 2 - 5px - 20px;
+
+				.content {
+					
+					width: @commentContentWidth;
+					display: inline-block;
+					vertical-align: top;
+					padding: 15px 20px;
+					font-size: 16px;
+
+					.title {
+						
+						width: @commentContentWidth;
+
+						.name {
+
+							font-weight: bold;
+						}
+
+						.date {
+
+							font-size: 10pt;
+							margin-left: 20px;
+						}
+
+						.options {
+
+							float: right;
+						}
+					}
+
+					.text {
+
+						margin-top: 5px;
+						
+					}
+				}
+
+				.editContent {
+					
+					display: inline-block;
+					width: @commentContentWidth;
+					vertical-align: top;
+					padding: 15px 20px;
+					font-size: 16px;
+
+					textarea {
+						
+						width: @commentContentWidth - 1px * 2 - 5px * 2;
+						min-height: 80px;
+						border: 1px solid darken(@middleWrapperBackgroundColor, 15%);
+						padding: 5px;
+						.border-radius(5px);
+						background: lighten(@middleWrapperBackgroundColor, 4%);
+					}
+				}
+
+				.options {
+					
+					display: inline-block;
+					vertical-align: top;
+					width: 20px;
+					height: 80px;
+					padding: 15px 0;
+					font-size: 16px;
+
+					a {
+
+						display: block;
+						width: 20px;
+						height: 20px;
+						text-align: center;
+						margin-bottom: 3px;
+
+						img {
+
+							width: 20px;
+							height: 20px;
+							vertical-align: middle;
+						}
+					}
+				}
+			}
+
+			.noComments {
+
+				text-align: center;
+				padding: 20px;
+				font-size: 16px;
+			}
+
+			.addPost {
+				
+				padding: 10px;
+				// background: #000;
+				font-size: 0;
+
+				@textareaWidth: @contentWidth - 10px * 2 - 1px * 2 - 10px * 2;
+
+				textarea {
+
+					width: @textareaWidth;
+					height: 150px;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 10px;
+					background: #fff;
+					.border-radius(5px);
+					font-size: 16px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+					.placeholder(darken(@middleWrapperBackgroundColor, 50%));
+				}
+
+				input {
+
+					background: #fff;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 7px 10px;
+					.border-radius(5px);
+					cursor: pointer;
+					font-size: 16px;
+					margin-top: 10px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+				}
+
+				input:disabled {
+
+					border: 1px solid darken(@middleWrapperBackgroundColor, 30%);
+					color: darken(@middleWrapperBackgroundColor, 40%);
+					cursor: default;
+				}
+
+				span {
+					
+					display: none;
+					font-size: 16px;
+					margin-left: 10px;
+					color: darken(@middleWrapperBackgroundColor, 60%);
+				}
+
+				span.error {
+
+					color: #dc6161;
+				}
+
+				span.success {
+
+					color: #1faa36;
+				}
+			}
+
+			.post {
+
+				@commentWidth: @contentWidth - 20px * 2;
+				padding: 20px;
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				font-size: 0;
+
+				.avatar {
+
+					display: inline-block;
+					vertical-align: top;
+					width: 120px;
+					height: 120px;
+					// background: #000;
+					.border-radius(50%);
+
+					img {
+
+						width: 120px;
+						height: 120px;
+						.border-radius(50%);
+					}
+				}
+
+				@postContentWidth: @commentWidth - 120px - 20px * 2 - 5px - 20px;
+
+				.content {
+
+					width: @postContentWidth;
+					display: inline-block;
+					vertical-align: top;
+					padding: 15px 20px;
+					font-size: 16px;
+
+					.title {
+
+						.name {
+
+							font-weight: bold;
+						}
+
+						.date {
+
+							font-size: 10pt;
+							margin-left: 20px;
+						}
+
+						.remove {
+
+							float: right;
+						}
+					}
+
+					.text {
+
+						margin-top: 5px;
+						
+					}
+				}
+
+				.editContent {
+					
+					display: inline-block;
+					width: @postContentWidth;
+					vertical-align: top;
+					padding: 15px 20px;
+					font-size: 16px;
+
+					textarea {
+						
+						width: @postContentWidth - 1px * 2 - 5px * 2;
+						min-height: 80px;
+						border: 1px solid darken(@middleWrapperBackgroundColor, 15%);
+						padding: 5px;
+						.border-radius(5px);
+						background: lighten(@middleWrapperBackgroundColor, 4%);
+					}
+				}
+
+				.options {
+					
+					display: inline-block;
+					vertical-align: top;
+					width: 20px;
+					height: 80px;
+					padding: 15px 0;
+					font-size: 16px;
+
+					a {
+
+						display: block;
+						width: 20px;
+						height: 20px;
+						text-align: center;
+						margin-bottom: 3px;
+
+						img {
+
+							width: 20px;
+							height: 20px;
+							vertical-align: middle;
+						}
+					}
+				}
+			}
+
+			.noPosts {
+
+				text-align: center;
+				padding: 20px;
+				font-size: 16px;
+			}
+
+			.addAction {
+				
+				padding: 10px;
+				// background: #000;
+				font-size: 0;
+
+				@textareaWidth: @contentWidth - 10px * 2 - 1px * 2 - 10px * 2;
+
+				textarea {
+
+					width: @textareaWidth;
+					height: 150px;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 10px;
+					background: #fff;
+					.border-radius(5px);
+					font-size: 16px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+					.placeholder(darken(@middleWrapperBackgroundColor, 50%));
+				}
+
+				input {
+
+					background: #fff;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+					padding: 7px 10px;
+					.border-radius(5px);
+					cursor: pointer;
+					font-size: 16px;
+					margin-top: 10px;
+					color: darken(@middleWrapperBackgroundColor, 70%);
+				}
+
+				input:disabled {
+
+					border: 1px solid darken(@middleWrapperBackgroundColor, 30%);
+					color: darken(@middleWrapperBackgroundColor, 40%);
+					cursor: default;
+				}
+
+				span {
+					
+					display: none;
+					font-size: 16px;
+					margin-left: 10px;
+					color: darken(@middleWrapperBackgroundColor, 60%);
+				}
+
+				span.error {
+
+					color: #dc6161;
+				}
+
+				span.success {
+
+					color: #1faa36;
+				}
+			}
+
+			.action {
+
+				@actionWidth: @contentWidth - 20px * 2;
+				padding: 20px;
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				font-size: 16px;
+
+				.avatar {
+
+					display: inline-block;
+					vertical-align: top;
+					width: 120px;
+					height: 120px;
+
+					img {
+
+						width: 120px;
+						height: 120px;
+						.border-radius(60px);
+					}
+				}
+
+				@actionContentWidth: @actionWidth - 120px - 20px - 5px;
+
+				.content {
+					
+					width: @actionContentWidth;
+					display: inline-block;
+					vertical-align: top;
+					padding: 15px 0 15px 20px;
+
+					.title {
+						
+						width: @actionContentWidth;
+
+						.name {
+
+							font-weight: bold;
+						}
+
+						.date {
+
+							font-size: 10pt;
+							margin-left: 20px;
+						}
+
+						.options {
+
+							float: right;
+						}
+					}
+
+					.text {
+
+						margin-top: 5px;
+						
+					}
+
+					.editLoader {
+						
+						display: none;
+						font-size: 16px;
+						margin-left: 5px;
+						margin-top: 5px;
+						color: darken(@middleWrapperBackgroundColor, 60%);
+					}
+
+					.editLoader.error {
+
+						color: #dc6161;
+					}
+
+					.editLoader.success {
+
+						color: #1faa36;
+					}
+
+					textarea {
+						
+						display: none;
+						margin-top: 5px;
+						width: @actionContentWidth - 10px * 2 - 1px * 2;
+						height: 50px;
+						border: 1px solid darken(@middleWrapperBackgroundColor, 50%);
+						padding: 10px;
+						background: #fff;
+						.border-radius(5px);
+					}
+				}
+			}
+
+			.noActions {
+
+				text-align: center;
+				padding: 20px;
+				font-size: 16px;
+			}
+
+			@pointPadding: 10px;
+			@pointWidth: @contentWidth - @pointPadding * 2;
+			@pointColor: #000000;
+
+			.point {
+
+				display: block;
+				color: @pointColor;
+				height: 130px;
+				padding: @pointPadding;
+				width: @pointWidth;
+				position: relative;
+
+				@logoSize: 120px;
+
+				.logo {
+
+					position: absolute;
+					top: @pointPadding;
+					left: @pointPadding;
+
+					img {
+
+						width: @logoSize;
+						height: @logoSize;
+						.border-radius(100px);
+					}
+				}
+
+				@infoLeftMargin: 10px;
+				@infoWidth: @pointWidth - @logoSize - @infoLeftMargin;
+
+				.info {
+
+					position: absolute;
+					top: 0;
+					left: @pointPadding + @logoSize;
+					height: 80px;
+					width: @infoWidth;
+					margin: 30px 0 0 @infoLeftMargin;
+					// background: #000;
+
+					@ratingWidth: 100px;
+					@nameWidth: @infoWidth - @ratingWidth;
+					@nameColor: @pointColor;
+
+					.name {
+
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: @nameWidth;
+						font-size: 12pt;
+						font-weight: bold;
+					}
+
+					.rating {
+
+						position: absolute;
+						top: 0px;
+						right: 0;
+						width: @ratingWidth;
+						text-align: right;
+						font-size: 10pt;
+					}
+
+					.location {
+
+						position: absolute;
+						top: 24px;
+						left: 0;
+						font-size: 10pt;
+						color: lighten(@nameColor, 35%);
+					}
+
+					.description {
+
+						position: absolute;
+						top: 48px;
+						left: 0;
+						width: @infoWidth - 200px;
+						font-size: 10pt;
+						color: lighten(@nameColor, 35%);
+					}
+
+					.button {
+
+						//
+					}
+				}
+			}
+
+			.point:hover {
+
+				cursor: pointer;
+				background: darken(@middleWrapperBackgroundColor, 3%);
+			}
+
+			.noPoints {
+
+				text-align: center;
+				padding: 20px;
+				font-size: 16px;
+			}
+
+			@editProfileWidth: @contentWidth - 20px * 2;
+
+			.editProfile {
+
+				padding: 20px;
+				font-size: 16px;
+
+				.avatar {
+
+					display: inline-block;
+					vertical-align: top;
+					width: 200px;
+					height: 200px;
+					background: #ccc;
+					.border-radius(100px);
+				}
+
+				@informationWidth: @editProfileWidth - 200px - 30px;
+				
+				.information {
+
+					display: inline-block;
+					vertical-align: top;
+					width: @informationWidth;
+					margin: 10px 0 15px 20px;
+					// background: #ccc;
+
+					.title {
+
+						margin: 30px 0 3px 5px;
+						color: darken(@middleWrapperBackgroundColor, 60%);
+						font-size: 12pt;
+					}
+
+					.field {
+
+						margin: 0 0 10px 0;
+
+						.title {
+
+							margin: 3px 0 3px 5px;
+							color: darken(@middleWrapperBackgroundColor, 60%);
+							font-size: 12pt;
+							font-weight: normal;
+						}
+
+						@inputPadding: 10px;
+						@inputBorder: 1px;
+						@inputWidth: @informationWidth - @inputPadding * 2 - @inputBorder * 2;
+
+						input {
+
+							width: @inputWidth;
+							padding: @inputPadding;
+							border: @inputBorder solid darken(@middleWrapperBackgroundColor, 25%);
+							background: lighten(@middleWrapperBackgroundColor, 5%);
+							.border-radius(5px);
+							font-size: 11pt;
+							color: darken(@middleWrapperBackgroundColor, 70%);
+							.placeholder(darken(@middleWrapperBackgroundColor, 50%));
+						}
+
+						.error {
+
+							display: none;
+							margin-left: 5px;
+							color: #e63244;
+							font-size: 10pt;
+							padding: 5px 0;
+						}
+
+						textarea {
+
+							width: @inputWidth;
+							padding: @inputPadding;
+							border: @inputBorder solid darken(@middleWrapperBackgroundColor, 25%);
+							background: lighten(@middleWrapperBackgroundColor, 5%);
+							.border-radius(5px);
+							font-size: 11pt;
+							color: darken(@middleWrapperBackgroundColor, 70%);
+							.placeholder(darken(@middleWrapperBackgroundColor, 50%));
+						}
+					}
+
+					.submit {
+
+						display: inline-block;
+						margin: 20px 0 0 0;
+						border: 1px solid darken(@middleWrapperBackgroundColor, 25%);
+						.border-radius(5px);
+
+						input {
+
+							padding: 10px;
+							background: lighten(@middleWrapperBackgroundColor, 5%);
+							color: darken(@middleWrapperBackgroundColor, 70%);
+							.border-radius(5px);
+							cursor: pointer;
+						}
+
+						input:disabled {
+
+							background: darken(@middleWrapperBackgroundColor, 5%);
+							color: darken(@middleWrapperBackgroundColor, 40%);
+						}
+					}
+
+					#saveLoader {
+
+						display: none;
+						margin: 0 0 0 10px;
+						color: darken(@middleWrapperBackgroundColor, 50%);
+					}
+
+					#saveLoader.error {
+
+						color: #dc6161;
+					}
+
+					#saveLoader.success {
+
+						color: #1faa36;
+					}
+				}
+			}
+		}
+
+		#content.withSidebar {
+
+			width: @contentWidthWithSidebar;
+			background: @contentBackgroundColor;
+			margin: 0 0 0 @sidebarWidth;
+			min-height: 380px;
+			padding-top: @topbarHeight;
+			// padding-left: @sidebarWidth;
+
+			#noResults {
+
+				height: 100px;
+				line-height: 100px;
+				font-size: 12pt;
+				text-align: center;
+			}
+
+			.separator {
+
+				height: 1px;
+				background: darken(@contentBackgroundColor, 10%);
+				margin: 0 0;
+			}
+
+			@pointPadding: 10px;
+			@pointWidth: @contentWidthWithSidebar - @pointPadding * 2;
+			@pointColor: #000000;
+
+			.point {
+
+				display: block;
+				color: @pointColor;
+				height: 130px;
+				padding: @pointPadding;
+				width: @pointWidth;
+				position: relative;
+
+				@logoSize: 120px;
+
+				.logo {
+
+					position: absolute;
+					top: @pointPadding;
+					left: @pointPadding;
+
+					img {
+
+						width: @logoSize;
+						height: @logoSize;
+						.border-radius(100px);
+					}
+				}
+
+				@infoLeftMargin: 10px;
+				@infoWidth: @pointWidth - @logoSize - @infoLeftMargin;
+
+				.info {
+
+					position: absolute;
+					top: 0;
+					left: @pointPadding + @logoSize;
+					height: 80px;
+					width: @infoWidth;
+					margin: 30px 0 0 @infoLeftMargin;
+					// background: #000;
+
+					@ratingWidth: 100px;
+					@nameWidth: @infoWidth - @ratingWidth;
+					@nameColor: @pointColor;
+
+					.name {
+
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: @nameWidth;
+						font-size: 12pt;
+						font-weight: bold;
+					}
+
+					.rating {
+
+						position: absolute;
+						top: 0px;
+						right: 0;
+						width: @ratingWidth;
+						text-align: right;
+						font-size: 10pt;
+					}
+
+					.location {
+
+						position: absolute;
+						top: 24px;
+						left: 0;
+						font-size: 10pt;
+						color: lighten(@nameColor, 35%);
+					}
+
+					.description {
+
+						position: absolute;
+						top: 48px;
+						left: 0;
+						font-size: 10pt;
+						color: lighten(@nameColor, 35%);
+						width: @infoWidth;
+					}
+
+					@servicePadding: 5px;
+					@serviceWidth: @infoWidth - @servicePadding * 2;
+
+					.service {
+
+						position: absolute;
+						top: 48px;
+						width: @serviceWidth;
+						height: 40px;
+						border: 1px solid darken(@contentBackgroundColor, 7%);
+						.border-radius(10px);
+						padding: @servicePadding;
+						background: darken(@contentBackgroundColor, 3%);
+
+						.name {
+
+							position: absolute;
+							top: 8px;
+							left: 8px;
+							font-size: 10pt;
+						}
+
+						.description {
+
+							position: absolute;
+							top: 26px;
+							left: 8px;
+							font-size: 10pt;
+						}
+
+						.price {
+
+							position: absolute;
+							top: 8px;
+							right: 8px;
+							font-size: 10pt;
+						}
+					}
+					
+					@actionPadding: 5px;
+					@actionWidth: @infoWidth - @actionPadding * 2;
+
+					.action {
+
+						position: absolute;
+						top: 48px;
+						width: @serviceWidth;
+						height: 40px;
+						border: 1px solid darken(@contentBackgroundColor, 7%);
+						.border-radius(10px);
+						padding: @servicePadding;
+						background: darken(@contentBackgroundColor, 3%);
+
+						.name {
+
+							position: absolute;
+							top: 8px;
+							left: 8px;
+							font-size: 10pt;
+						}
+
+						.description {
+
+							position: absolute;
+							top: 26px;
+							left: 8px;
+							font-size: 10pt;
+						}
+					}
+				}
+			}
+
+			.point:hover {
+
+				cursor: pointer;
+				background: darken(@contentBackgroundColor, 3%);
+
+				.info {
+
+					.service {
+
+						border: 1px solid darken(@contentBackgroundColor, 10%);
+					}
+				}
+			}
+		}
+
+		@subheaderPadding: 15px;
+		@subheaderWidth: @wrapperWidth - @subheaderPadding * 2;
+		@separatorBackgroundColor: darken(@middleWrapperBackgroundColor, 30%);
+
+		.subheader.forPoint {
+
+			@logoSize: 200px;
+			@subscriptionHeight: 40px;
+			@subscriptionWidth: @logoSize;
+			@subscriptionTopOffset: 15px;
+			@subscribedHeight: 40px;
+			@subscribedWidth: @logoSize;
+			@subscribedTopOffset: 15px;
+			@unsubscribeMargin: 3px;
+			@unsubscribeHeight: @subscribedHeight;
+
+			position: relative;
+			padding: @subheaderPadding;
+			height: @logoSize + @subscriptionHeight + @subscriptionTopOffset;
+			background: @subheaderBackgroundColor;
+
+
+			.logo {
+
+				img {
+
+					width: @logoSize;
+					height: @logoSize;
+					.border-radius(100px);
+				}
+			}
+
+			@infoLeftMargin: 15px;
+			@infoWidth: @subheaderWidth - @logoSize - @infoLeftMargin;
+
+			.info {
+
+				position: absolute;
+				top: 0;
+				left: @subheaderPadding + @logoSize;
+				height: 80px;
+				width: @infoWidth;
+				margin: 45px 0 0 @infoLeftMargin;
+				// background: #000;
+
+				@ratingWidth: 100px;
+				@nameWidth: @infoWidth - @ratingWidth;
+				@nameColor: #000000;
+
+				.name {
+
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: @nameWidth;
+					font-size: 20pt;
+				}
+
+				.rating {
+
+					position: absolute;
+					top: 0px;
+					right: 0;
+					width: @ratingWidth;
+					text-align: right;
+					font-size: 15pt;
+				}
+
+				.location {
+
+					position: absolute;
+					top: 34px;
+					left: 0;
+					font-size: 12pt;
+					color: lighten(@nameColor, 35%);
+				}
+
+				.description {
+
+					position: absolute;
+					top: 64px;
+					left: 0;
+					font-size: 13pt;
+					color: lighten(@nameColor, 35%);
+				}
+			}
+
+			.subscription {
+
+				position: absolute;
+				top: @logoSize + @subheaderPadding + @subscriptionTopOffset;
+				display: block;
+				margin: 0 0 0;
+				width: @subscriptionWidth;
+				text-align: center;
+				height: @subscriptionHeight;
+				line-height: @subscriptionHeight;
+				background: darken(@middleWrapperBackgroundColor, 15%);
+				font-size: 11pt;
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				.border-radius(3px);
+			}
+
+			.subscription:hover {
+
+				background: darken(@middleWrapperBackgroundColor, 18%);
+				cursor: pointer;
+			}
+
+			.subscribed {
+	
+				position: absolute;
+				top: @logoSize + @subheaderPadding + @subscribedTopOffset;
+				display: block;
+				margin: 0 0 0;
+				width: @subscribedWidth;
+				text-align: center;
+				height: @subscribedHeight;
+				line-height: @subscribedHeight;
+				background: darken(@middleWrapperBackgroundColor, 15%);
+				font-size: 11pt;
+				color: darken(@middleWrapperBackgroundColor, 70%);
+				.border-radius(3px);
+				overflow: hidden;
+				cursor: pointer;
+				.transition(height 0.1s linear);
+
+				.unsubscribe {
+					
+					display: block;
+					margin: @unsubscribeMargin;
+					background: darken(@middleWrapperBackgroundColor, 25%);
+					.border-radius(2px);
+				}
+
+				.unsubscribe:hover {
+
+					background: darken(@middleWrapperBackgroundColor, 35%);
+				}
+			}
+
+			.subscribed.clicked {
+
+				height: @subscribedHeight + @unsubscribeHeight + @unsubscribeMargin * 2;
+			}
+
+			@menuWidth: @infoWidth;
+
+			.menu {
+
+				position: absolute;
+				bottom: -1px;
+				// background: #000;
+				text-align: center;
+				width: @menuWidth;
+				height: 40px;
+				margin-left: @subscriptionWidth + @infoLeftMargin;
+				font-size: 0;
+
+				a {
+
+					display: inline-block;
+					height: 38px;
+					line-height: 38px;
+					padding: 0 16px;
+					background: darken(@middleWrapperBackgroundColor, 10%);
+					color: darken(@middleWrapperBackgroundColor, 70%);
+					border: 1px solid @separatorBackgroundColor;
+					margin-left: -1px;
+					font-size: 11pt;
+
+					span {
+
+						padding: 4px 6px;
+						margin: 0 0 0 12px;
+						background: @separatorBackgroundColor;
+						.border-radius(3px);
+					}
+				}
+
+				a.active {
+
+					background: @middleWrapperBackgroundColor;
+					border-bottom: none;
+					height: 39px;
+					line-height: 38px;
+
+					span {
+
+						background: lighten(@separatorBackgroundColor, 10%);
+					}
+				}
+
+				a:first-child {
+
+					.border-top-left-radius(3px);
+					margin-left: 0;
+				}
+
+				a:last-child {
+
+					.border-top-right-radius(3px);
+				}
+			}
+		}
+
+		.subheader.forUser {
+
+			@logoSize: 200px;
+			@subscriptionHeight: 40px;
+			@subscriptionWidth: @logoSize;
+			@subscriptionTopOffset: 15px;
+			@subscribedHeight: 40px;
+			@subscribedWidth: @logoSize;
+			@subscribedTopOffset: 15px;
+			@unsubscribeMargin: 3px;
+			@unsubscribeHeight: @subscribedHeight;
+
+			position: relative;
+			padding: @subheaderPadding;
+			height: @logoSize + @subscriptionHeight + @subscriptionTopOffset;
+			background: @subheaderBackgroundColor;
+
+
+			.logo {
+
+				img {
+
+					width: @logoSize;
+					height: @logoSize;
+					.border-radius(100px);
+				}
+			}
+
+			@infoLeftMargin: 15px;
+			@infoWidth: @subheaderWidth - @logoSize - @infoLeftMargin;
+
+			.info {
+
+				position: absolute;
+				top: 0;
+				left: @subheaderPadding + @logoSize;
+				height: 80px;
+				width: @infoWidth;
+				margin: 45px 0 0 @infoLeftMargin;
+				// background: #000;
+
+				@ratingWidth: 100px;
+				@nameWidth: @infoWidth - @ratingWidth;
+				@nameColor: #000000;
+
+				.name {
+
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: @nameWidth;
+					font-size: 20pt;
+				}
+
+				.about {
+
+					position: absolute;
+					top: 34px;
+					left: 0;
+					font-size: 13pt;
+					color: lighten(@nameColor, 35%);
+				}
+			}
+
+			@menuWidth: @infoWidth;
+
+			.menu {
+
+				position: absolute;
+				bottom: -1px;
+				// background: #000;
+				text-align: center;
+				width: @menuWidth;
+				height: 40px;
+				margin-left: @subscriptionWidth + @infoLeftMargin;
+				font-size: 0;
+
+				a {
+
+					display: inline-block;
+					height: 38px;
+					line-height: 38px;
+					padding: 0 16px;
+					background: darken(@middleWrapperBackgroundColor, 10%);
+					color: darken(@middleWrapperBackgroundColor, 70%);
+					border: 1px solid @separatorBackgroundColor;
+					margin-left: -1px;
+					font-size: 11pt;
+
+					span {
+
+						padding: 4px 6px;
+						margin: 0 0 0 12px;
+						background: @separatorBackgroundColor;
+						.border-radius(3px);
+					}
+				}
+
+				a.active {
+
+					background: @middleWrapperBackgroundColor;
+					border-bottom: none;
+					height: 39px;
+					line-height: 38px;
+
+					span {
+
+						background: lighten(@separatorBackgroundColor, 10%);
+					}
+				}
+
+				a:first-child {
+
+					.border-top-left-radius(3px);
+					margin-left: 0;
+				}
+
+				a:last-child {
+
+					.border-top-right-radius(3px);
+				}
+			}
+
+			@statisticsLeftMargin: 15px;
+
+			.statistics {
+
+				position: absolute;
+				top: 80px;
+				left: @subheaderPadding + @logoSize;
+				margin: 45px 0 0 @statisticsLeftMargin;
+				height: 100px;
+
+				.block {
+
+					display: inline-block;
+					vertical-align: top;
+					height: 74px;
+					min-width: 120px;
+					font-size: 0;
+					background: @middleWrapperBackgroundColor;
+					border: 1px solid darken(@middleWrapperBackgroundColor, 30%);
+					.border-radius(5px);
+					padding: 7px 10px;
+					margin: 0 5px;
+
+					.count {
+
+						text-align: center;
+						font-size: 40px;
+						color: darken(@middleWrapperBackgroundColor, 65%);
+					}
+
+					.name {
+
+						text-align: center;
+						font-size: 20px;
+						color: darken(@middleWrapperBackgroundColor, 60%);
+					}
+				}
+			}
+
+			.options {
+				
+				position: absolute;
+				top: 50px;
+				right: 20px;
+
+				a {
+					
+					color: darken(@middleWrapperBackgroundColor, 65%); 
+				}
+			}
+		}
+
+		.separator {
+
+			height: 1px;
+			background: @separatorBackgroundColor;
+		}
+	}
+}
+
+#footer {
+
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: #656565;
+	height: @footerHeight;
+}
+
+.modal {
+
+	display: none;
+	position: fixed;
+	top: 0; right: 0; bottom: 0; left: 0;
+	z-index: 999;
+	overflow: auto;
+
+	.overlay {
+
+		position: absolute;
+		top: 0; right: 0; bottom: 0; left: 0;
+		background: darken(@headerBackgroundColor, 13%);
+		opacity: 0.5;
+		cursor: pointer;
+	}
+
+	@contentBackgroundColor: #fff;
+	@contentWidth: 600px;
+
+	.content {
+
+		position: fixed;
+		top: 0; right: 0; bottom: 0; left: 0;
+		z-index: 1000;
+		display: table;
+		margin: auto;
+		height: auto;
+		width: @contentWidth;
+		background: @contentBackgroundColor;
+		.border-radius(5px);
+		padding: 0;
+		cursor: default;
+		font-size: 0;
+
+		.registration {
+
+			// display: none;
+			// width: @modalWidth;
+			// background: #000;
+			padding: 0 0 0;
+			margin: 0;
+
+			.title {
+
+				width: @contentWidth - 10px * 2;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				background: @headerBackgroundColor;
+				// background: #48d1cc;
+				margin: 0 0 20px;
+				padding: 10px;
+				color: #fff;
+				font-size: 12pt;
+				font-weight: bold;
+				// border: 1px solid darken(@modalBackgroundColor, 10%);
+				.border-top-radius(5px);
+				box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+			}
+
+			@inputLeftRightMargin: 30px;
+			@inputBorder: 1px;
+			@inputWidth: @contentWidth - @inputLeftRightMargin * 2 - @inputBorder * 2;
+
+			.input {
+
+				margin: 0 @inputLeftRightMargin 5px;
+				// background: #ccc;
+
+				input {
+
+					width: @inputWidth;
+					height: 50px;
+					// background: url('/img/tranparent.gif');
+					background: @contentBackgroundColor;
+					text-align: center;
+					font-size: 12pt;
+					border: @inputBorder solid darken(@contentBackgroundColor, 10%);
+					.border-radius(5px);
+				}
+
+				.error {
+
+					display: none;
+					text-align: center;
+					color: #e63244;
+					font-size: 10pt;
+					padding: 5px 0;
+				}
+			}
+
+			.error.input {
+
+				input {
+
+					border: @inputBorder solid darken(#e63244, 10%);
+					.placeholder(#e63244);
+				}
+			}
+
+			.submit {
+
+				width: 280px + 10px;
+				height: 50px;
+				margin: 15px 30px 25px;
+				font-size: 11pt;
+				// padding: 10px;
+				text-align: center;
+				// background: @topbarBackgroundColor;
+				background: #e63244;
+				color: #fff;
+				border: 1px solid darken(@contentBackgroundColor, 10%);
+				.border-radius(5px);
+				cursor: pointer;
+			}
+
+			.partner {
+
+				display: block;
+				width: @contentWidth - 7px * 2;
+				height: 30px;
+				line-height: 30px;
+				// background: @topbarBackgroundColor;
+				background: lighten(@headerBackgroundColor, 10%);
+				padding: 7px;
+				.border-bottom-left-radius(5px);
+				.border-bottom-right-radius(5px);
+				text-align: center;
+				color: #fff;
+				box-shadow: 0 -3px 10px rgba(0,0,0,0.5);
+			}
+		}
+
+		.authorize {
+
+			// display: none;
+			// width: @modalWidth;
+			// background: #000;
+			padding: 0 0 0;
+			margin: 0;
+
+			.title {
+
+				width: @contentWidth - 10px * 2;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				background: @headerBackgroundColor;
+				// background: #48d1cc;
+				margin: 0 0 20px;
+				padding: 10px;
+				color: #fff;
+				font-size: 12pt;
+				font-weight: bold;
+				// border: 1px solid darken(@modalBackgroundColor, 10%);
+				.border-top-left-radius(5px);
+				.border-top-right-radius(5px);
+				box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+			}
+
+			@blockWidth: @contentWidth / 2;
+
+			.block {
+
+				display: inline-block;
+				vertical-align: top;
+				width: @blockWidth;
+				font-size: 12pt;
+
+				@inputLeftRightMargin: 30px;
+				@inputBorder: 1px;
+				@inputWidth: @blockWidth - @inputLeftRightMargin * 2 - @inputBorder * 2;
+
+				.input {
+
+					margin: 0 @inputLeftRightMargin 5px;
+					// background: #ccc;
+
+					input {
+
+						width: @inputWidth;
+						height: 50px;
+						// background: url('/img/tranparent.gif');
+						background: @contentBackgroundColor;
+						text-align: center;
+						font-size: 12pt;
+						border: @inputBorder solid darken(@contentBackgroundColor, 10%);
+						.border-radius(5px);
+					}
+
+					.error {
+
+						display: none;
+						text-align: center;
+						color: #e63244;
+						font-size: 10pt;
+						padding: 5px 0;
+					}
+				}
+
+				.error.input {
+
+					input {
+
+						border: @inputBorder solid darken(#e63244, 10%);
+						.placeholder(#e63244);
+					}
+				}
+
+				@submitWidth: @blockWidth - 30px * 2;
+
+				.submit {
+
+					width: @submitWidth;
+					height: 50px;
+					margin: 15px 30px 25px;
+					font-size: 13pt;
+					// padding: 10px;
+					text-align: center;
+					// background: @topbarBackgroundColor;
+					background: #e63244;
+					color: #fff;
+					border: 1px solid darken(@contentBackgroundColor, 10%);
+					.border-radius(5px);
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}

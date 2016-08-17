@@ -1,0 +1,269 @@
+1. getSalons
+
+input:
+{
+	^count: [int] {5 - 100} - число получаемых салонов в одном запросе, если поле отсутствует, получаются все элементы без ограничений
+	^start: [int] {0 - ...} - смещение, начиная с какого салона считать (не работает без count)
+	^search: [string] - строка для поиска совпадений с названиями салонов, если поле отсутствует, получаются салоны с любым названием
+
+	^ - необязательные параметры
+}
+
+output [a]:
+{
+	success: true,
+	salons: [{'id', 'path', 'name', 'latitude', 'longitude', 'rating', 'image'}]
+
+	# если нет ни одного салона, в поле salons возвращается пустой массив []
+}
+
+2. getSalonById
+
+input:
+{
+	id: [int] {1 - ...}
+}
+
+output[a]:
+{
+	success: false
+	error: 'Invalid id param',
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Not found'
+	errno: 404
+}
+
+output[c]:
+{
+	success: true
+	salon: {'id', 'path', 'name', 'latitude', 'longitude', 'rating', 'image', 'description', 'email', 'phone', 'vk_group', 'site'}
+}
+
+3. getSalonByPath
+
+input:
+{
+	path: [string] [A-Za-z0-9-_.]
+}
+
+output[a]:
+{
+	success: false
+	error: 'Invalid path param',
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Not found'
+	errno: 404
+}
+
+output[c]:
+{
+	success: true
+	salon: {'id', 'path', 'name', 'latitude', 'longitude', 'rating', 'image', 'description', 'email', 'phone', 'vk_group', 'site'}
+}
+
+4. getServicesBySalonId
+
+input:
+{
+	salonId: [int] {1 - ...}
+}
+
+output[a]:
+{
+	success: false
+	error: 'Invalid salonId param',
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Not found'
+	errno: 404
+}
+
+output[c]:
+{
+	success: true
+	services: ['id', 'name', 'description']
+}
+
+5. getCommentsBySalonId
+
+input:
+{
+	salonId: [int] {1 - ...}
+	^count: [int] {5 - 100} - число получаемых комментарив салона в одном запросе, если поле отсутствует, получаются все элементы без ограничений
+	^start: [int] {0 - ...} - смещение, начиная с какого комментария считать (не работает без count)
+
+	^ - необязательные параметры
+}
+
+output[a]:
+{
+	success: false
+	error: 'Invalid salonId param',
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Not found'
+	errno: 404
+}
+
+output[c]:
+{
+	success: false
+	comments: [{'id', 'text', 'user': [{'id', 'name'}]}]
+}
+
+6. registerNewUser
+
+input:
+{
+	name: [string] [non-empty]
+	email: [string] [valid email]
+	password: [string] [min: 6 chars]
+}
+
+output[a]:
+{
+	success: false
+	error: 'You are alredy authorized'
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Invalid name param'
+	errno: 1
+}
+
+output[b]:
+{
+	success: false
+	error: 'Invalid email param'
+	errno: 2
+}
+
+output[c]:
+{
+	success: false
+	error: 'User with the same email is alredy exists'
+	errno: 3
+}
+
+output[d]:
+{
+	success: false
+	error: 'Invalid password param'
+	errno: 4
+}
+
+output[e]:
+{
+	success: false
+	error: 'Password most contains at least 6 characters'
+	errno: 5
+}
+
+output[d]:
+{
+	success: true
+	rememberToken: [string] [60 chars]
+}
+
+7. authorizeUser
+
+input:
+{
+	email: [string] [valid email]
+	password: [string] [min: 6 chars]
+}
+
+output[a]
+{
+	success: false
+	error: 'You are alredy authorized'
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Invalid email param'
+	errno: 1
+}
+
+output[c]:
+{
+	success: false
+	error: 'Invalid password param'
+	errno: 2
+}
+
+output[d]:
+{
+	success: false
+	error: 'Can\'t find user with the same email address'
+	errno: 3	
+}
+
+output[e]:
+{
+	success: false
+	error: 'Wrong password'
+	errno: 4
+}
+
+output[f]:
+{
+	success: true
+	rememberToken: [string] [60 chars]
+}
+
+8. remindUserPassword
+
+input:
+{
+	email: [string] [valid email]
+}
+
+output[a]
+{
+	success: false
+	error: 'You are alredy authorized'
+	errno: 0
+}
+
+output[b]:
+{
+	success: false
+	error: 'Invalid email param'
+	errno: 1
+}
+
+output[c]:
+{
+	success: false
+	error: 'Can\'t find user with the same email address'
+	errno: 2
+}
+
+output[d]:
+{
+	success: true
+}

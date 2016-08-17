@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+	<script src="underscore.js"></script>
+	<script src="backbone.js"></script>
+	<script src="backbone.js"></script>
+	<script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+	<script src="application.js"></script>
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<script type="text/template" id="headerTemplate">
+        <% if (history) { %>
+	        <a class="leftside" id="backButton" href="#<%= history.path %>">
+	            &lsaquo; <%= history.title %>
+	        </a>
+	     <% } %>
+        <a href="/" class="logo">
+            <img src="/img/logoPrototype.png" alt="" />
+        </a>
+        <div class="rightside">
+            <% if (!account.check()) { %>
+            <a class="item" id="loginButton">Войти</a>
+            <a class="item" id="registerButton">Зарегистрироваться</a>
+            <% } else { %>
+            <a class="profile" id="profileButton">
+                <div class="name"><%= account.user.name %></div>
+                <div class="avatar">
+                    <img src="https://pbs.twimg.com/profile_images/572360620519878656/tMFYl1Re_400x400.jpeg" alt="" />
+                </div>
+            </a>
+            <% } %>
+        </div>
+        <ul class="menu">
+            <li id="editProfileButton">Редактировать</li>
+            <li id="subscriptionsButton">Мои точки<span id="subscribedPointsCount">10</span></li>
+            <li id="logoutButton">Выход</li>
+        </ul>
+	</script>
+	<script type="text/template" id="authorizeModalTemplate">
+		<div class="overlay"></div>
+        <div class="content">
+            <div class="authorize">
+                <div class="title">Авторизация</div>
+                <form class="block" id="loginForm">
+	                <div class="input">
+	                    <input type="text" name="email" placeholder="E-Mail" autocomplete="off" />
+	                    <div class="error"></div>
+	                </div>
+	                <div class="input">
+	                    <input type="password" name="password" placeholder="Ваш пароль" autocomplete="off" />
+	                    <div class="error"></div>
+	                </div>
+	                <input type="submit" class="submit" value="Войти" />
+	            </form>
+	            <form class="block" id="registrationForm">
+	                <div class="input">
+	                    <input type="text" name="name" placeholder="Ваше имя" autocomplete="off" />
+	                    <div class="error"></div>
+	                </div>
+	                <div class="input">
+	                    <input type="text" name="email" placeholder="E-Mail" autocomplete="off" />
+	                    <div class="error"></div>
+	                </div>
+	                <div class="input">
+	                    <input type="password" name="password" placeholder="Ваш пароль" autocomplete="off" />
+	                    <div class="error"></div>
+	                </div>
+	                <input type="submit" class="submit" value="Зарегистрироваться" />
+	            </form>
+            </div>
+        </div>
+	</script>
+	<!-- [ Search ] -->
+	<script type="text/template" id="searchTemplate">
+		<div id="topbar">
+		    <form class="search" id="searchForm">
+		        <input type="text" name="query" autocomplete="off" id="query" placeholder="Введите название" value="..." />
+		        <img src="/img/searchLoader.gif" alt="" id="searchLoader" />
+		    </form>
+		</div>
+		<div id="sidebar">
+		    <div class="dropdown">
+		        <div class="title">
+		            <span id="searchByTitle">Поиск по точкам</span>
+		            <span>&#9660;</span>
+		        </div>
+		        <ul>
+		            <li>По точкам</li>
+		            <li>По услугам</li>
+		            <li>По акциям</li>
+		        </ul>
+		        <input type="hidden" name="searchBy" id="searchBy" value="name" />
+		    </div>
+		    <div class="options">
+		    	<div class="title">Сортировка</div>
+		        <div class="separator"></div>
+		        <div class="content">
+		        	<div class="sorter">
+		        		<div class="title">
+		        			<span id="sortingByTitle">По рейтингу</span>
+		        			<span>&#9660;</span>
+		        		</div><div class="order">&darr;&uarr;</div>
+		        		<ul>
+		        			<li>По рейтингу</li>
+		        			<li>По дистанции</li>
+		        		</ul>
+		        	</div>
+		        </div>
+		        <div id="servicesPriceFilter" style="display: none;">
+					<div class="separator"></div>
+			        <div class="title">Стоимость услуги</div>
+			        <div class="separator"></div>
+			        <div class="content">
+			        	<div class="filter">
+			    			<input type="text" name="from" class="from" placeholder="От..." autocomplete="off" id="filterPriceFrom" value="{{ Input::get('priceFrom') }}" /><input type="text" name="to" class="to" placeholder="До..." autocomplete="off" id="filterPriceTo" value="{{ Input::get('priceTo') }}" />
+			    			<div id="slider-range"></div>
+			        	</div>
+			        </div>
+			    </div>
+		    </div>
+		    <!-- <div class="params">
+		        <div class="title">Сортировать</div>
+		        <ul class="choice">
+		            <li>
+		                <label for="sortingByRating">
+		                    <span></span>
+		                    <input type="radio" name="orderBy" id="sortingByRating" value="rating" checked /> по рейтингу
+		                </label>
+		            </li>
+		            <li>
+		                <label for="sortingByCost">
+		                    <span></span>
+		                    <input type="radio" name="orderBy" id="sortingByCost" value="cost" /> по цене
+		                </label>
+		            </li>
+		        </ul>
+		        <div class="title">Мин. стоимость услуги</div>
+		        <div class="filter">
+		            От <input type="text" name="cost" value="" /> ₽
+		        </div>
+		        <div class="title">Показывать только акции</div>
+		        <ul class="choice">
+		            <li>
+		                <label for="showOnlyActions">
+		                    <span></span>
+		                    <input type="checkbox" name="onlyActions" id="showOnlyActions" value="true" /> Да
+		                </label>
+		            </li>
+		        </ul>
+		    </div> -->
+		    <div id="scroll">
+		        <div class="border"></div>
+		        <div class="arrow"></div>
+		    </div>
+		</div>
+		<div id="content" class="withSidebar withTopbar">
+			@if ($units->count())
+			@foreach ($units as $key => $unit)
+			@if ($key)
+			<div class="separator"></div>
+			@endif
+			@if ($searchParams['searchBy'] == 'points')
+			<a class="point" href="http://{{ Config::get('app.domain') }}/{{ $unit->profile->address }}">
+		        <div class="logo">
+		            <img src="/img/testLogo.jpg" alt="" />
+		        </div>
+		        <div class="info">
+		            <div class="name">{{ $unit->name }}</div>
+		            <div class="rating">{{ round($unit->rating) }}%</div>
+		            <div class="location">{{ $unit->location }}</div>
+		            <div class="description">{{ $unit->description }}</div>
+		        </div>
+		    </a>
+		    @elseif ($searchParams['searchBy'] == 'services')
+		    <a class="point" href="http://{{ Config::get('app.domain') }}/{{ $unit->point->profile->address }}">
+		        <div class="logo">
+		            <img src="http://{{ Config::get('app.domain') }}/img/testLogo.jpg" alt="" />
+		        </div>
+		        <div class="info">
+		            <div class="name">{{ $unit->point->name }}</div>
+		            <div class="rating">{{ round($unit->point->rating) }}%</div>
+		            <div class="location">{{ $unit->point->location }}</div>
+		            <div class="service">
+		            	<div class="name">{{ $unit->name }}</div>
+		            	<div class="description">{{ $unit->description }}</div>
+		            	<div class="price">от {{ round($unit->price_from) }} до {{ round($unit->price_to) }} руб.</div>
+		            </div>
+		        </div>
+		    </a>
+		    @elseif ($searchParams['searchBy'] == 'actions')
+
+		    @endif
+		    @endforeach
+		    @if ($units->count() >= 10)
+			<div id="loading" class="button">Загрузить ещё</div>
+			@endif
+			@else
+			<div id="noResults">Не найдено ни одной точки по Вашему запросу</div>
+			@endif
+		</div>
+	</script>
+	<!-- [ /Search ] -->
+	<!-- [ Point ] -->
+ 	<script type="text/template" id="subheaderPointTemplate">
+		<div class="subheader forPoint">
+		    <div class="logo">
+		        <img src="/img/testLogo.jpg" alt="" />
+		    </div>
+		    <div class="info">
+		        <div class="name"><%= point.name %></div>
+		        <div class="rating"><%= Math.floor(point.rating) %>%</div>
+		        <div class="location"><%= point.location %></div>
+		        <div class="description"><%= point.description %></div>
+		    </div>
+		    <div class="subscribed" id="subscribedButton" style="<%= (point.userPivot && point.userPivot.subscribed == true) ? '' : 'display: none;' %>">
+		        <div>Вы подписаны</div>
+		        <a class="unsubscribe" id="unsubscribeButton">Отписаться</a>
+		    </div>
+		    <div class="subscription" id="subscribeButton" style="<%= (point.userPivot && point.userPivot.subscribed == true) ? 'display: none;' : '' %>">Подписаться</div>
+		    <div class="menu">
+		        <a href="#<%= point.address %>?a=1" <%= (page == 'wall') ? 'class="active"' : '' %> data-id="wall">Записи<%= (point.postsCount == 0) ? '' : '<span>' + point.postsCount +'</span>' %></a>
+		        <a href="#<%= point.address %>/services?a=2" <%= (page == 'services') ? 'class="active"' : '' %> data-id="services">Услуги</a>
+		        <a href="#<%= point.address %>/information?a=3" <%= (page == 'information') ? 'class="active"' : '' %> data-id="information">Информация</a>
+		        <a href="#<%= point.address %>/comments?a=4" <%= (page == 'comments') ? 'class="active"' : '' %> data-id="comments">Отзывы</a>
+		    </div>
+		</div>
+		<div class="separator"></div>
+		<div id="content">#content</div>
+	</script>
+	<script type="text/template" id="pointWallTemplate">
+		<% if (posts.length == 0) { %>
+			<div class="noPosts">Пока нет ни одной записи</div>
+		<% } else { %>
+			<% _(posts).each(function(post, index) { %>
+				<% if (index != 0) { %>
+					<div class="separator"></div>
+				<% } %>
+				<div class="post">
+					<div class="avatar">
+						<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSlMW7dUiK-9Fo76jT7ab3ONwXrir2FiJghDDMMdC252RI767vp" alt="" />
+					</div>
+					<div class="content">
+						<div class="title">
+							<span class="name"><%= post.user.name %></span>
+							<span class="date">...</span>
+							<a href="#" class="remove">
+								<img src="/img/remove16.png" alt="" />
+							</a>
+						</div>
+						<div class="text"><%= post.text %></div>
+					</div>
+				</div>
+			<% }); %>
+		<% } %>
+	</script>
+	<script type="text/template" id="pointInformationTemplate">
+		<div class="workdays">
+			<div class="title">Рабочие дни</div>
+			<ul>
+				<li>Пн.<span>8:00 - 18:00</span></li>
+				<li>Вт.<span>8:00 - 18:00</span></li>
+				<li>Ср.<span>8:00 - 18:00</span></li>
+				<li>Чт.<span>8:00 - 18:00</span></li>
+				<li>Пт.<span>8:00 - 18:00</span></li>
+				<li>Сб.<span>Выходной</span></li>
+				<li>Вс.<span>Выходной</span></li>
+			</ul>
+		</div>
+		<div class="internet">
+			<div class="title">Интернет</div>
+			<ul>
+				<li>
+					<div class="image">
+						<img src="/img/vk128.png" alt="" />
+					</div>
+					<span>ВКонтакте</span>
+					<a href="http://vk.com/justdoit" target="_blank" class="right">vk.com/justdoit</a>
+				</li>
+				<li>
+					<div class="image">
+						<img src="/img/website96.png" alt="" />
+					</div>
+					<span>Веб-сайт</span>
+					<a href="http://google.com" target="_blank" class="right">google.com</a>
+				</li>
+			</ul>
+		</div>
+		<div class="contacts">
+			<div class="title">Контакты</div>
+			<ul>
+				<li>
+					<div class="image">
+						<img src="/img/phone128.png" alt="" />
+					</div>
+					<span>Телефон</span>
+					<span class="right">8 (843) 262-22-22</span>
+				</li>
+				<li>
+					<div class="image">
+						<img src="/img/email128.png" alt="" />
+					</div>
+					<span>E-Mail</span>
+					<a href="mailto://atom-danil@yandex.ru" class="right">atom-danil@yandex.ru</a>
+				</li>
+			</ul>
+		</div>
+		<div class="separator"></div>
+		<div id="map" style="width: 100%; height: 400px;"></div>
+	</script>
+	<script type="text/template" id="pointServicesTemplate">
+		<% if (servicesSections.length == 0) { %>
+			<div class="noSections">Пока нет ни одной услуги</div>
+		<% } else { %>
+			<ul class="sections">
+				<% _(servicesSections).each(function(section, index) { %>
+					<li class="section <%= (index == 0) ? 'active' : '' %>" data-id="<%= section.id %>"><%= section.name %></li>
+				<% }); %>
+			</ul>
+			<% _(servicesSections).each(function(section, index) { %>
+				<ul class="services" id="servicesOfSection<%= section.id %>" <%= (index != 0) ? 'style="display: none;"' : '' %>>
+					<% _(section.services).each(function(service) { %>
+						<li><%= service.name %><span>от <%= Math.round(service.price_from * 100) / 100 %> до <%= Math.round(service.price_to * 100) / 100 %> руб.</span></li>
+					<% }); %>
+				</ul>
+			<% }); %>
+		<% } %>
+	</script>
+	<script type="text/template" id="pointCommentsTemplate">
+		<% if (comments.length == 0) { %>
+			<div class="noComments">Пока нет ни одного комментария</div>
+		<% } else { %>
+			<% _(comments).each(function(comment, index) { %>
+				<% if (index != 0) { %>
+					<div class="separator"></div>
+				<% } %>
+				<form class="comment" id="comment<%= comment.id %>">
+					<div class="avatar">
+						<img src="https://pbs.twimg.com/profile_images/572360620519878656/tMFYl1Re_400x400.jpeg" alt="" />
+					</div>
+					<div class="content">
+						<div class="title">
+							<span class="name"><%= comment.user.name %></span>
+							<span class="date">...</span>
+							<!-- <span class="options">
+								<a href="#" class="editComment" data-id="<%= comment.id %>">Редактировать</a> <a href="#" class="deleteComment" data-id="<%= comment.id %>">Удалить</a>
+							</span> -->
+						</div>
+						<div class="text"><%= comment.text %></div>
+						<textarea name="text"></textarea>
+						<div class="editLoader">Сохраняем...</div>
+					</div>
+				</form>
+			<% }); %>
+		<% } %>
+	</script>
+	<!-- [ /Point ] -->
+	<div id="header">
+		<div class="wrapper" style="width: 1000px;">123</div>
+	</div>
+	<div id="middle">
+		<div class="wrapper" style="width: 1000px;">123</div>
+	</div>
+	<div class="modal" id="authorizeModal"></div>
+</body>
+</html>
