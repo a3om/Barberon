@@ -1,3 +1,3 @@
 # Barberon
 
-Тематическая социальная сеть на тему парикмахерских. Разработка серверной части на Laravel 5. Разработка клиенской части по технологии Single Page Application без использования фреймворков. Создание модулей: пользователи, фотоальбом, отзывы, новости, поиск салонов. Работа с Яндекс.Картами и с их API. Вёрста и разработка дизайна с применением LESS.
+It's a Social Network for barbershops. Using Laravel 5 for Back-End, using Single Page Application pattern for Front-End. Development of following modules: users, photos, comments, news, search. Work with Google Maps API. Coding design with the use of LESS.
